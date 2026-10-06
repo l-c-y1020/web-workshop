@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png" />
+    <title>关于我</title>
+    <style>
+      body {
+        height: 100vh;
+        margin: 0;
+      }
+      /* 页面专属样式：复用 index.css 的卡片，再补充布局与配色 */
+      #about-me-main-frame {
+        height: 100%;
+        padding: 6vh 0;
+        box-sizing: border-box;
+        /* 和“关于这个工程”页呼应的渐变背景 */
+        background: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+      }
+      #about-me-outer {
+        width: 700px;
+        display: flex;
+        margin: 0 auto;
+      }
+      #about-me-left {
+        width: 280px;
+        display: inline-block;
+        margin-right: 12px;
+      }
+      #about-me-right {
+        width: 384px;
+        display: inline-block;
+      }
+      #avatar {
+        display: block;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        border-radius: 50%;
+      }
+      /* 用伪元素给技能表加上文字底色 */
+      .skill-table td {
+        border-radius: 4px;
+      }
+    </style>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div id="about-me-main-frame">
+      <div id="about-me-outer">
+        <!-- 左栏：头像、基本信息和一句话介绍 -->
+        <div class="card" id="about-me-left">
+          <img class="card" id="avatar" src="./assets/tsinghua-fall.jpg" alt="头像" title="头像" />
+          <h2 style="text-align: center;">关于我</h2>
+          <table border="1px" class="styled-table skill-table">
+            <tr>
+              <th>昵称</th>
+              <td><strong>lcy</strong></td>
+            </tr>
+            <tr>
+              <th>院系</th>
+              <td>电子工程系</td>
+            </tr>
+            <tr>
+              <th>爱好</th>
+              <td>写代码、听音乐、打球</td>
+            </tr>
+          </table>
+          <hr />
+          <blockquote style="margin: 0; color: #555;">
+            <em>“纸上得来终觉浅，绝知此事要躬行。”</em>
+          </blockquote>
+        </div>
+        <!-- 右栏：爱好、趣事和联系方式 -->
+        <div id="about-me-right">
+          <div class="card" style="margin-bottom: 12px;">
+            <h3>我的爱好</h3>
+            <ul class="styled-list">
+              <li><strong>编程</strong>：喜欢折腾各种新框架和工具</li>
+              <li><strong>音乐</strong>：写代码时的必备背景音</li>
+              <li><strong>运动</strong>：羽毛球与夜跑</li>
+            </ul>
+          </div>
+          <div class="card" style="margin-bottom: 12px;">
+            <h3>三件小事</h3>
+            <ol class="styled-list">
+              <li>第一次写出 Hello World 是在信息课上</li>
+              <li>曾经为了调一个 bug 熬到凌晨三点</li>
+              <li>最喜欢的语言目前是 C#（暂时的）</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3>找到我</h3>
+            <p>
+              GitHub：
+              <a href="https://github.com/l-c-y1020" target="_blank"><em>l-c-y1020</em></a>
+            </p>
+            <p style="color: #666; font-size: 14px;">这是2026科协暑培第9讲作业页面</p>
+          </div>
+        </div>
+      </div>
+      <p style="text-align: center; margin-top: 12px;">
+        <a href="./index.html" style="color: #333;">&larr; 返回首页</a>
+      </p>
+    </div>
+  </body>
+</html>
