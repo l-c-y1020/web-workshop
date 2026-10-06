@@ -12,6 +12,9 @@ const authenticate: (req: Request, res: Response, next: NextFunction) => Respons
       if (err || !decoded) {
         return res.status(401).send("401 Unauthorized: Token expired or invalid");
       }
+      // 把 token 中的用户 uuid 存入 res.locals，供后续处理器使用
+      const payload = decoded as { uuid?: string };
+      res.locals.uuid = payload.uuid;
       return next();
     });
   };

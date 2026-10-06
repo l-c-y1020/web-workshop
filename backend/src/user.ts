@@ -1,5 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import authenticate from "./authenticate";
 import { sdk as graphql } from "./index";
 
 interface userJWTPayload {
@@ -65,6 +66,25 @@ router.post("/register", async (req, res) => {
       expiresIn: "24h",
     });
     return res.status(200).json({ token });
+  } catch (err) {
+    console.error(err);
+    return res.sendStatus(500);
+  }
+});
+
+// 痕迹抹除：删除当前登录用户及其所有记录
+// 用户、user_room、message、note 等表之间均有外键级联删除，只需删除用户记录本身
+router.get("/delete", authenticate, async (req, res) => {
+  const uuid = res.locals.uuid;
+  if (!uuid) {
+    return res.status(401).send("401 Unauthorized: Invalid token payload");
+  }
+  try {
+    const mutationResult = await graphql.deleteUser({ uuid: uuid });
+    if (!mutationResult.delete_user_by_pk) {
+      return res.status(404).send("404 Not Found: User does not exist");
+    }
+    return res.status(200).send("User and all related records deleted successfully");
   } catch (err) {
     console.error(err);
     return res.sendStatus(500);

@@ -74,4 +74,35 @@ router.get("/download", authenticate, (req, res) => {
   }
 });
 
+// 痕迹抹除：删除某个会议共享空间中的文件
+router.post("/delete", authenticate, (req, res) => {
+  const { room, filename } = req.body ?? {};
+  if (!room || !filename) {
+    return res.status(422).send("422 Unprocessable Entity: Missing room or filename");
+  }
+  // room 应为 uuid，filename 不应包含路径分隔符，防止路径穿越
+  const uuidPattern = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+  if (typeof room !== "string" || !uuidPattern.test(room)) {
+    return res.status(422).send("422 Unprocessable Entity: Invalid room");
+  }
+  if (typeof filename !== "string" || filename.length === 0 ||
+      filename.includes("/") || filename.includes("\\") || filename.includes("..")) {
+    return res.status(422).send("422 Unprocessable Entity: Invalid filename");
+  }
+  const filePath = path.resolve(baseDir, room, filename);
+  try {
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).send("404 Not Found: File does not exist");
+    }
+    if (!fs.statSync(filePath).isFile()) {
+      return res.status(422).send("422 Unprocessable Entity: Not a regular file");
+    }
+    fs.unlinkSync(filePath);
+    return res.status(200).send("File deleted successfully");
+  } catch (err) {
+    console.error(err);
+    return res.sendStatus(500);
+  }
+});
+
 export default router;
