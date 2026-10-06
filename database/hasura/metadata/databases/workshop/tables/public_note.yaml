@@ -1,0 +1,54 @@
+table:
+  name: note
+  schema: public
+object_relationships:
+  - name: room
+    using:
+      foreign_key_constraint_on: room_uuid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uuid
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        user_uuid:
+          _eq: X-Hasura-User-Id
+      columns:
+        - content
+        - room_uuid
+        - user_uuid
+    comment: 只能为自己创建便签纸
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - content
+        - room_uuid
+        - user_uuid
+        - created_at
+        - updated_at
+        - uuid
+      filter:
+        user_uuid:
+          _eq: X-Hasura-User-Id
+    comment: 便签纸仅创建者自己可见
+update_permissions:
+  - role: user
+    permission:
+      check:
+        user_uuid:
+          _eq: X-Hasura-User-Id
+      columns:
+        - content
+      filter:
+        user_uuid:
+          _eq: X-Hasura-User-Id
+    comment: 只能修改自己的便签纸
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_uuid:
+          _eq: X-Hasura-User-Id
+    comment: 只能删除自己的便签纸
