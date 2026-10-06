@@ -1,0 +1,32 @@
+# 便签纸相关操作
+# 注意：note 表的 select/insert/update/delete 权限都限制了 user_uuid 必须等于
+# 请求者的 X-Hasura-User-Id，因此下面的查询天然只会返回/影响自己的便签纸。
+
+# 获取我在某个会议中的便签纸
+query getMyNote($roomUuid: uuid!) {
+  note(where: {room_uuid: {_eq: $roomUuid}}, limit: 1) {
+    uuid
+    content
+    created_at
+    updated_at
+  }
+}
+
+# 保存我在某个会议中的便签纸（不存在则创建，存在则覆盖内容）
+mutation saveMyNote($roomUuid: uuid!, $content: String!) {
+  insert_note_one(
+    object: {room_uuid: $roomUuid, content: $content}
+    on_conflict: {constraint: note_user_uuid_room_uuid_key, update_columns: [content]}
+  ) {
+    uuid
+    content
+    updated_at
+  }
+}
+
+# 删除我的某张便签纸
+mutation deleteMyNote($uuid: uuid!) {
+  delete_note_by_pk(uuid: $uuid) {
+    uuid
+  }
+}
