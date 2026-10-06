@@ -42,6 +42,47 @@
       .skill-table td {
         border-radius: 4px;
       }
+      /* 主题切换按钮 */
+      #theme-toggle {
+        display: block;
+        margin: 0 auto 8px;
+        padding: 6px 14px;
+        border: none;
+        border-radius: 16px;
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+      /* 暗色模式：只调整背景与文字颜色 */
+      body.dark-mode {
+        background: linear-gradient(to top, #232526 0%, #414345 100%);
+      }
+      body.dark-mode #about-me-main-frame {
+        background: linear-gradient(to top, #232526 0%, #414345 100%);
+      }
+      body.dark-mode .card {
+        background-color: rgba(35, 35, 42, 0.55);
+        color: #e0e0e0;
+      }
+      body.dark-mode .card a,
+      body.dark-mode .muted a {
+        color: #8ab4f8;
+      }
+      body.dark-mode .muted {
+        color: #aaaaaa;
+      }
+      body.dark-mode .styled-table th,
+      body.dark-mode .styled-table td {
+        border-color: #5a5a66;
+      }
+      .muted {
+        color: #555;
+      }
+      .back-link {
+        color: #444;
+      }
+      body.dark-mode .back-link {
+        color: #aaaaaa;
+      }
     </style>
     <link rel="stylesheet" href="./index.css" />
   </head>
@@ -50,6 +91,7 @@
       <div id="about-me-outer">
         <!-- 左栏：头像、基本信息和一句话介绍 -->
         <div class="card" id="about-me-left">
+          <button id="theme-toggle" type="button">🌙 暗色模式</button>
           <img class="card" id="avatar" src="./assets/tsinghua-fall.jpg" alt="头像" title="头像" />
           <h2 style="text-align: center;">关于我</h2>
           <table border="1px" class="styled-table skill-table">
@@ -67,7 +109,7 @@
             </tr>
           </table>
           <hr />
-          <blockquote style="margin: 0; color: #555;">
+          <blockquote class="muted" style="margin: 0;">
             <em>“纸上得来终觉浅，绝知此事要躬行。”</em>
           </blockquote>
         </div>
@@ -95,13 +137,15 @@
               GitHub：
               <a href="https://github.com/l-c-y1020" target="_blank"><em>l-c-y1020</em></a>
             </p>
-            <p style="color: #666; font-size: 14px;">这是2026科协暑培第9讲作业页面</p>
+            <p class="muted" id="github-stats">GitHub 信息加载中……</p>
+            <p class="muted" style="font-size: 14px;">这是2026科协暑培第9、10讲作业页面</p>
           </div>
         </div>
       </div>
       <p style="text-align: center; margin-top: 12px;">
-        <a href="./index.html" style="color: #333;">&larr; 返回首页</a>
+        <a href="./index.html" class="back-link">&larr; 返回首页</a>
       </p>
     </div>
+    <script src="./about-me.js"></script>
   </body>
 </html>
